@@ -15,6 +15,8 @@ export default function AlbumPage() {
   const { theme, setTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
 
+  const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'
+
   useEffect(() => setMounted(true), [])
 
   const fetchAlbum = useCallback(async () => {
@@ -32,7 +34,7 @@ export default function AlbumPage() {
 
   const fetchPhotos = useCallback(async () => {
     try {
-      const response = await fetch(`http://localhost:8000/photos/${slug}`)
+      const response = await fetch(`${API_BASE}/photos/${slug}`)
       if (!response.ok) throw new Error('Failed to fetch photos')
       const data = await response.json()
       setPhotos(data.photos || [])
@@ -62,7 +64,7 @@ export default function AlbumPage() {
       formData.append('file', file)
       formData.append('album_id', slug as string)
 
-      const uploadRes = await fetch(`http://localhost:8000/add_to_db/?album_id=${slug}`, {
+      const uploadRes = await fetch(`${API_BASE}/add_to_db/?album_id=${slug}`, {
         method: 'POST',
         body: formData,
       })
@@ -139,7 +141,7 @@ export default function AlbumPage() {
             {photos.map((filename, i) => (
               <div key={i} className="rounded-md overflow-hidden">
                 <Image
-                  src={`http://localhost:8000/photos/${slug}/${filename}`}
+                  src={`${API_BASE}/photos/${slug}/${filename}`}
                   alt={`Photo ${i}`}
                   width={300}
                   height={300}

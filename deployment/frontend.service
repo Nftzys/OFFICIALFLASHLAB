@@ -8,6 +8,7 @@ WorkingDirectory=/opt/flashlab/frontend
 ExecStart=/usr/bin/npm start
 Restart=always
 Environment=NODE_ENV=production
+Environment=NEXT_PUBLIC_API_URL=https://flashlab.pro/api
 
 [Install]
 WantedBy=multi-user.target

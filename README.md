@@ -60,6 +60,10 @@ sudo systemctl daemon-reload
 sudo systemctl enable --now flashlab-backend.service flashlab-frontend.service
 ```
 
+The frontend service uses the environment variable `NEXT_PUBLIC_API_URL` to
+contact the FastAPI backend. The supplied service file sets this to
+`https://flashlab.pro/api`. Adjust it if deploying under another domain.
+
 ### 6. Configure Nginx
 
 ```bash
@@ -69,12 +73,13 @@ sudo nginx -t
 sudo systemctl reload nginx
 ```
 
-Edit `deployment/nginx.conf` and replace `example.com` with your domain or IP
-address.  SSL can be enabled with Certbot once everything works.
+The provided Nginx config is already set up for `flashlab.pro`.  If you are
+deploying under a different domain, edit `deployment/nginx.conf` accordingly.
+SSL can be enabled with Certbot once everything works.
 
 The frontend is served on port 3000 and the API on port 8000; Nginx proxies
 requests so that `/api/` reaches the backend and all other requests go to the
 frontend.
 
-You should now have the application available via `http://your-domain/` with the
-API reachable under `http://your-domain/api/`.
+You should now have the application available via `https://flashlab.pro/` with
+the API reachable under `https://flashlab.pro/api/`.
